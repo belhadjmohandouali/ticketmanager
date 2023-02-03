@@ -7,7 +7,7 @@
         <a class="btn btn-info btn-lg float-right" href="{{ path('creer_demande') }}">
             Créer une nouvelle demande
         </a>
-    <h1>Demandes</h1>
+    <h1>Mes demandes</h1>
         {% if demandes|length > 0 %}
             <div class="table-responsive-lg">
             <table class="table">
@@ -27,12 +27,14 @@
                         <td>{{ demande.titre }}</td>
                         <td>{{ demande.contenu}} </td>
                         <td>{{ demande.dateCreation|date('Y-m-d') }} à  {{ demande.dateCreation|date('H:m:s') }}</td>
-                        <td>{{ demande.status.id }} </td>
+                        <td>{{ demande.status.nom }} </td>
+                        {% if demande.pieceJointe is defined and demande.pieceJointe %}
                         <td>
-                            <a class='north' href="{{ asset("public/uploads/fichier123.pdf") }}" target="_blank" title="Télecharger la pièce jointe">
+                            <a class='north' href="{{ asset(demande.pieceJointe) }}" target="_blank" title="Télecharger la pièce jointe">
                                 <img class="piece-jointe center" src="{{ asset('assets/img/piece_jointe.png') }}" alt="Download file" />
                             </a>
                         </td>
+                        {% endif %}
 
 
                     </tr>

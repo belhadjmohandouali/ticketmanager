@@ -52,6 +52,10 @@ tr:hover{
     background-color: #A9F5F2;
 }
 
+a{
+    color: white;
+}
+
 @media (min-width: 40em) {
     .carousel-caption p {
         margin-bottom: 1.25rem;

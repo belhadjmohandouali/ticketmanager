@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class InscriptionController extends AbstractController
@@ -18,7 +19,7 @@ class InscriptionController extends AbstractController
         $this->entityManager = $entityManager;
     }
     #[Route('/inscription', name: 'inscription')]
-    public function index(Request $request): Response
+    public function index(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user= new User();
         $form = $this->createForm(InscriptionType::class, $user);
@@ -27,6 +28,8 @@ class InscriptionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
             $user = $form->getData();
+            $password = $passwordHasher->hashPassword($user, $user->getPassword());
+            $user->setPassword($password);
 
             $doctrine->persist($user);
             $doctrine->flush();

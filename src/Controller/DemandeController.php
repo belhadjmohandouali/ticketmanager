@@ -19,8 +19,9 @@ class DemandeController extends AbstractController
     #[Route('/demande', name: 'demande')]
     public function index(): Response
     {
-        $demandes = $this->entityManager->getRepository(Demande::class)->findAll();
-       // dd($demandes);
+        $user = $this->getUser();
+        $demandes = $user->getDemandes();
+
         return $this->render('demande/index.html.twig', [
             'demandes' => $demandes,
         ]);
@@ -40,6 +41,7 @@ class DemandeController extends AbstractController
             $demande->setContenu($form->get('contenu')->getData());
             $demande->setStatus($form->get('status')->getData());
             $demande->setDateCreation($dateCreation);
+            $demande->setUser($this->getUser());
             $doctrine->persist($demande);
             $doctrine->flush();
         }

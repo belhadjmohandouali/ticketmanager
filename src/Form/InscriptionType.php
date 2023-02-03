@@ -50,15 +50,6 @@ class InscriptionType extends AbstractType
                     'class' => 'btn btn-info'
                 ]
             ]);
-        $builder->get('Roles')
-            ->addModelTransformer(new CallbackTransformer(
-                function ($rolesArray) {
-                    return count($rolesArray)? $rolesArray[0]: null;
-                },
-                function ($rolesString) {
-                    return [$rolesString];
-                }
-            ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
