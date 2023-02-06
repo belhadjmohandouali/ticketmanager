@@ -42,12 +42,16 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        if(in_array('ROLE_ADMIN', $token->getUser()->getRoles())){
+            return new RedirectResponse($this->urlGenerator->generate('admin'));
+
+        }
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('admin'));
+        return new RedirectResponse($this->urlGenerator->generate('demande'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

@@ -19,17 +19,51 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('email'),
-            TextEditorField::new('password'),
-            ChoiceField::new('roles')->setChoices(
-                [
-                    'Admin' => '["ROLE_ADMIN"]',
-                    'User' => '["ROLE_USER"]',
-                ]
-            )->allowMultipleChoices()
-        ];
+        $render = [];
+        $action = $this->getContext()->getCrud()->getCurrentAction();
+        switch ($action){
+            case "new":
+                $render = [
+                    IdField::new('id'),
+                    TextField::new('email'),
+                    TextEditorField::new('password'),
+                    ChoiceField::new('roles')->setChoices(
+                        [
+                            'Admin' => '["ROLE_ADMIN"]',
+                            'User' => '["ROLE_USER"]',
+                        ]
+                    )->allowMultipleChoices()
+                ];
+                break;
+
+            case "index":
+                $render = [
+                    IdField::new('id'),
+                    TextField::new('email'),
+                    //TextEditorField::new('password'),
+                   // TextField::new('roles')->setValue(''),
+
+                ];
+                break;
+
+            case "edit":
+                $render = [
+                    IdField::new('id')->setFormTypeOption('disabled','disabled'),
+                    TextField::new('email'),
+                    TextEditorField::new('password'),
+                    ChoiceField::new('roles')->setChoices(
+                        [
+                            'Admin' => '["ROLE_ADMIN"]',
+                            'User' => '["ROLE_USER"]',
+                        ]
+                    )->allowMultipleChoices()
+                ];
+                break;
+
+        }
+
+
+        return $render;
     }
 
 }

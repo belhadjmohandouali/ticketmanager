@@ -1,0 +1,5 @@
+# config/packages/easy_admin.yaml
+#easy_admin:
+#    Demande:
+#      fields:
+#        - { property: 'status', type: 'choice', choices: "@=service('app.StatusManagerService').getChoices(Status)" }
